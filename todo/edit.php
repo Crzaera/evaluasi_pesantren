@@ -1,8 +1,7 @@
 <?php
-include '../config.php';
+include '../config/koneksi.php';
 
 $todo        = "";
-$status       = "";
 $sukses     = "";
 $error      = "";
 
@@ -13,21 +12,19 @@ if (isset($_GET['op'])) {
 }
 if ($op == 'edit') {
     $id         = $_GET['id'];
-    $sql1       = "select * from siswa where id= '$id'";
+    $sql1       = "select * from todo where id= '$id'";
     $q1         = mysqli_query($koneksi, $sql1);
     $r1         = mysqli_fetch_array($q1);
     $todo        = isset($r1['todo']) ? $r1['todo'] : '';
-    $status       = isset($r1['status']) ? $r1['status'] : '';
     if ($todo == '') {
         $error = "Data tidak ditemukan";
     }
 }
 if (isset($_POST['simpan'])) {
     $todo        = $_POST['todo'];
-    $status       = $_POST['status'];
-    if ($todo && $status) {
+    if ($todo) {
         if ($op == 'edit') { 
-            $sql1       = "update siswa set todo = '$todo',status = '$status' where id ='$id'";
+            $sql1       = "update todo set todo = '$todo',status = 'selesai' where id ='$id'";
             $q1         = mysqli_query($koneksi, $sql1);
             if ($q1) {
                 $sukses = "Data berhasil diupdate";
@@ -57,7 +54,7 @@ if (isset($_POST['simpan'])) {
 <body>
     <div class="mx-auto">
         <!-- untuk memasukan data -->
-        <div class="card">
+        <div class="card" style="padding: 50px; width: 100%; margin: 0 auto; margin-top: 12%;">
             <div class="card-header">
                 Edit Data
             </div>
@@ -85,22 +82,6 @@ if (isset($_POST['simpan'])) {
                         <label for="todo" class="col-sm-2 col-form-label">todo</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="todo" name="todo" value="<?php echo $todo ?>">
-                        </div>
-                    </div>
-                    <div class="mb-3 row">
-                        <label for="status" class="col-sm-2 col-form-label">status</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="status" name="status" value="<?php echo $status ?>">
-                        </div>
-                    </div>
-                    <div class="mb-3 row">
-                        <label for="status" class="col-sm-2 col-form-label">Status</label>
-                        <div class="col-sm-10">
-                            <select class="form-control" name="status" id="status">
-                                <option value="">- Pilih Status -</option>
-                                <option value="RPL" <?php if ($status == "RPL") echo "selected" ?>>Sedang Dikerjakan</option>
-                                <option value="TO" <?php if ($status == "TO") echo "selected" ?>>Selesai</option>
-                            </select>
                         </div>
                     </div>
                     <div class="col-12">

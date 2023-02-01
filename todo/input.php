@@ -2,17 +2,15 @@
 include '../config/koneksi.php';
 
 $todo        = "";
-$status       = "";
 $error      = "";
 $sukses     = "";
 
 if (isset($_POST['simpan'])) {
     $todo        = $_POST['todo'];
-    $status       = $_POST['status'];
 
-    if ($todo && $status) {
+    if ($todo) {
 
-        $sql1   = "insert into todo(todo,status) values ('$todo','$status')";
+        $sql1   = "insert into todo(todo,status) values ('$todo','sedang dikerjakan')";
         $q1     = mysqli_query($koneksi, $sql1);
         if ($q1) {
             $sukses     = "Berhasil memasukan data baru";
@@ -44,9 +42,9 @@ if (isset($_POST['simpan'])) {
 <body>
     <div class="mx-auto">
         
-        <div class="card">
+        <div class="card" style="padding: 50px; width: 100%; margin: 0 auto; margin-top: 12%;">
             <div class="card-header">
-                Create
+                Tambah Data Todo
             </div>
             <div class="card-body">
                 <?php
@@ -72,16 +70,6 @@ if (isset($_POST['simpan'])) {
                         <label for="todo" class="col-sm-2 col-form-label">todo</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="todo" name="todo" value="<?php echo $todo ?>">
-                        </div>
-                    </div>
-                    <div class="mb-3 row">
-                        <label for="status" class="col-sm-2 col-form-label">Status</label>
-                        <div class="col-sm-10">
-                            <select class="form-control" name="status" id="status">
-                                <option value="">- Pilih Status -</option>
-                                <option value="Sedang Dikerjakan" <?php if ($status == "Sedang Dikerjakan") echo "selected" ?>>On Going</option>
-                                <option value="Selesai" <?php if ($status == "Selesai") echo "selected" ?>>Complete</option>
-                            </select>
                         </div>
                     </div>
                     <div class="col-12">
